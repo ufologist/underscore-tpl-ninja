@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Underscore-tpl-ninja : 增强 underscore template 的容错性" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Underscore-tpl-ninja</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ufologist/underscore-tpl-ninja">View on GitHub</a>
+
+          <h1 id="project_title">Underscore-tpl-ninja</h1>
+          <h2 id="project_tagline">增强 underscore template 的容错性</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ufologist/underscore-tpl-ninja/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ufologist/underscore-tpl-ninja/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="underscore-tpl-ninja-v010-2014-03-06" class="anchor" href="#underscore-tpl-ninja-v010-2014-03-06"><span class="octicon octicon-link"></span></a>underscore-tpl-ninja v0.1.0 2014-03-06</h1>
+
+<p>增强 <a href="http://underscorejs.org/#template">underscore template</a> 的容错性, 让模版有错误时忍一忍(ninja), 不要随便抛出异常终止了程序的主逻辑.</p>
+
+<h2>
+<a name="_template-%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98" class="anchor" href="#_template-%E6%9C%89%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="octicon octicon-link"></span></a>_.template 有什么问题?</h2>
+
+<p>默认的 _.template 不允许模版有任何错误, 不管是语法错误或模版执行(渲染)时报错, 而且一旦报错就会中断程序后续语句的执行. 模版应该是渲染层面的事情, 即使有问题, 也不应该影响程序的主要(流程)逻辑.</p>
+
+<p>例如这个情况</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s1">'&lt;% if %&gt;'</span><span class="p">);</span>
+<span class="c1">// 由于不容错, 编译模版时抛出了异常, 导致程序中断后续语句无法执行</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'my heart will go on?'</span><span class="p">);</span>
+</pre></div>
+
+<p>再看这个情况, 就更郁闷了...</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s1">'&lt;%= foo %&gt;'</span><span class="p">,</span> <span class="p">{});</span>
+<span class="c1">// 由于不容错, 执行模版时缺失了必要的属性而抛出了异常, 导致程序中断后续语句无法执行</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'my heart will go on?'</span><span class="p">);</span>
+</pre></div>
+
+<p>相比起其他模版引擎(<a href="http://aui.github.io/artTemplate/">artTemplate</a>, <a href="http://juicer.name/">juicer</a>, <a href="http://handlebarsjs.com/">handlebars.js</a>), _.template 在容错性方面那是相当脆弱啊, 难道你是要我每次使用 _.template 时都 try/catch 一把?</p>
+
+<h2>
+<a name="%E5%A6%82%E4%BD%95%E8%AE%A9-_template-%E6%9C%89%E5%AE%B9%E4%B9%83%E5%A4%A7" class="anchor" href="#%E5%A6%82%E4%BD%95%E8%AE%A9-_template-%E6%9C%89%E5%AE%B9%E4%B9%83%E5%A4%A7"><span class="octicon octicon-link"></span></a>如何让 _.template 有容乃大</h2>
+
+<p>覆盖了 _.template, 在预编译模版和执行错误模版时 try/catch 了异常, 这样就不会中断后续语句的执行了.</p>
+
+<p>由于是覆盖的 _.template, 因此使用方式和原来的保持一致, 用起来没有任何副作用.</p>
+
+<p>除此之外, 还有稍许好处</p>
+
+<ul>
+<li>模版出错后仍会得到默认的错误提示信息(可自定义)</li>
+<li>对于支持 console 的浏览器, 会在控制台输出错误信息</li>
+<li>对于不支持 console 的浏览器, 默认还是会抛出异常, 中断程序, 因为不能直接选择静默异常而不给任何通知(可配置允许静默异常)</li>
+<li>如果你愿意, 还是可以使用原本的 _.template</li>
+</ul><h2>
+<a name="%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="octicon octicon-link"></span></a>使用方法</h2>
+
+<ol>
+<li>下载 <a href="http://underscorejs.org/underscore-min.js">underscore.js</a>
+</li>
+<li>下载 <a href="https://raw.github.com/ufologist/underscore-tpl-ninja/master/src/underscore-tpl-ninja.js">underscore-tpl-ninja.js</a>
+</li>
+<li>HTML示例</li>
+</ol><div class="highlight highlight-html"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>underscore-tpl-ninja<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"tpl-ninja"</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"http://underscorejs.org/underscore-min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"../src/underscore-tpl-ninja.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'tpl-ninja'</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s1">'&lt;p&gt;&lt;%= foo1 %&gt;&lt;/p&gt;'</span><span class="p">,</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="s1">'underscore-tpl-ninja'</span><span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// 增强后的 _.template, 调用方式和原来一样</span>
+<span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s1">'&lt;p&gt;&lt;%= foo %&gt;&lt;/p&gt;'</span><span class="p">,</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="s1">'underscore-tpl-ninja'</span><span class="p">});</span>
+
+<span class="c1">// 设置模版出错后给予的提示信息</span>
+<span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">.</span><span class="nx">setTemplateErrorTip</span><span class="p">(</span><span class="s1">'error tip'</span><span class="p">);</span>
+
+<span class="c1">// 设置是否开启静默异常(默认为 false)</span>
+<span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">.</span><span class="nx">setSilenceError</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="c1">// 使用原来的 _.template 实现</span>
+<span class="kd">var</span> <span class="nx">_template</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">.</span><span class="nx">originalTemplate</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">tpl</span> <span class="o">=</span> <span class="nx">_template</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="s1">'&lt;%= foo %&gt;'</span><span class="p">,</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="s1">'underscore-tpl-ninja'</span><span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">tpl</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>changelog</h2>
+
+<p><a href="https://github.com/ufologist/underscore-tpl-ninja/blob/master/CHANGELOG.md">CHANGELOG</a></p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>MIT</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Underscore-tpl-ninja maintained by <a href="https://github.com/ufologist">ufologist</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
