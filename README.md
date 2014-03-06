@@ -54,7 +54,9 @@ console.log('my heart will go on?');
 </body>
 </html>
 ```
-4. 辅助 API
+
+
+## API
 ```javascript
 // 增强后的 _.template, 调用方式和原来一样
 _.template('<p><%= foo %></p>', {foo: 'underscore-tpl-ninja'});
@@ -86,4 +88,4 @@ MIT
 [4]: http://handlebarsjs.com/
 [5]: http://underscorejs.org/underscore-min.js
 [6]: https://raw.github.com/ufologist/underscore-tpl-ninja/master/src/underscore-tpl-ninja.js
-[7]: https://github.com/ufologist/underscore-tpl-ninja/CHANGELOG.md
+[7]: https://github.com/ufologist/underscore-tpl-ninja/blob/master/CHANGELOG.md
