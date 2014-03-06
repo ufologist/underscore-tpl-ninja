@@ -1,0 +1,31 @@
+{
+    "name": "underscore-tpl-ninja",
+    "description": "增强 underscore template 的容错性",
+    "version": "0.1.0",
+    "main": "src/underscore-tpl-ninja.js",
+    "homepage": "http://ufologist.github.io/underscore-tpl-ninja",
+    "author": "https://github.com/ufologist",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ufologist/underscore-tpl-ninja"
+    },
+    "keywords": [
+        "underscore",
+        "tpl",
+        "fault-tolerant"
+    ],
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-jasmine": "~0.6.1",
+        "load-grunt-tasks": "~0.3.0",
+        "time-grunt": "~0.2.0"
+    },
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    }
+}

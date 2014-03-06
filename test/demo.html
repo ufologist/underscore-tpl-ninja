@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>underscore-tpl-ninja</title>
+</head>
+<body>
+    <div id="tpl-ninja"></div>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="../src/underscore-tpl-ninja.js"></script>
+    <script>
+    document.getElementById('tpl-ninja').innerHTML = _.template('<p><%= foo1 %></p>', {foo: 'underscore-tpl-ninja'});
+    </script>
+</body>
+</html>
