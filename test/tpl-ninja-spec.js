@@ -37,7 +37,7 @@ describe('增强underscore模版的容错性', function() {
 
     it('修改默认的模版错误提示', function() {
         var tip = '- error -';
-        _.template.setTemplateErrorTip(tip)
+        _.template.setTemplateErrorTip(tip);
         var tpl = _.template(correctTemplate, {});
         expect(tpl()).toBe(tip);
     });

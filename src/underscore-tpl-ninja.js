@@ -41,14 +41,16 @@
      * @param {boolean} value
      */
     function setSilenceError(value) {
-        silenceError = value
+        silenceError = value;
     }
 
     function handleTemplateException(e) {
         if (typeof console !== 'undefined' && console) {
             console.error(e.toString());
-            e.source && console.log(e.source);
-        } else if (silenceError != true) { // 对于不支持console的浏览器, 是否需要静默异常
+            if (e.source) {
+                console.log(e.source);
+            }
+        } else if (silenceError !== true) { // 对于不支持console的浏览器, 是否需要静默异常
             throw e;
         }
     }
