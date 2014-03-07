@@ -5,11 +5,12 @@ module.exports = function(grunt) {
     require('time-grunt')(grunt);
 
     grunt.initConfig({
-        jasmine: { // XXX 安装jasmine时请开代理, 谢谢
+        jasmine: { // XXX 安装 grunt-contrib-jasmine 时请开代理, 谢谢, 不要问我为什么
             all: {
+                src: 'src/underscore-tpl-ninja.js',
                 options: {
-                    specs: 'test/**/*Spec.js',
-                    vendor: ['http://underscorejs.org/underscore-min.js', 'src/underscore-tpl-ninja.js']
+                    specs: 'test/**/*spec.js',
+                    vendor: ['http://underscorejs.org/underscore-min.js']
                 }
             }
         }
